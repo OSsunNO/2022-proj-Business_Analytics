@@ -4,7 +4,7 @@ Business Analytics course aims to provide students with technologies, applicatio
 This term project is for the junior students at the ITM department.
 
 ## Data
-2015 Flights Delay and Cancellations (https://www.kaggle.com/datasets/usdot/flight-delays)
+2015 Flights Delay and Cancellations (https://www.kaggle.com/datasets/usdot/flight-delays)\n
 Historical Hourly Weather Data 2012-2017 (https://www.kaggle.com/datasets/selfishgene/historical-hourly-weather-data)
 
 ## Goal
