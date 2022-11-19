@@ -1,9 +1,8 @@
-
-
+from sklearn.ensemble import IsolationForest
 import pandas as pd
 import matplotlib.pyplot as plt
 import warnings
-warnings.filterwarnings('ignor')
+warnings.filterwarnings('ignore')
 import copy
 import numpy as np
 
@@ -109,3 +108,69 @@ for i in range(len(departure)):
 
 comdf = comdf.reset_index(drop = True)
 comdf.to_csv("/Users/moon/Desktop/commitdf.csv", index = False)
+
+
+def iForest(data, weathers, contamination, flag):
+    data = data.loc[(data['Type'] == weathers[0]) | (data['Type'] == weathers[1]) | (data['Type'] == weathers[2])]
+    data = data.reset_index(drop=True)
+    dfh = data.loc[data['Type'] == weathers[0]].reset_index(drop=True)
+    dfd = data.loc[data['Type'] == weathers[1]].reset_index(drop=True)
+    dfs = data.loc[data['Type'] == weathers[2]].reset_index(drop=True)
+
+    dfh = dfh.drop(columns=['Type'])
+    dfh = dfh.rename(columns={'Weather': weathers[0]})
+    dfd = dfd.drop(columns=['Type'])
+    dfd = dfd.rename(columns={'Weather': weathers[1]})
+    dfs = dfs.drop(columns=['Type'])
+    dfs = dfs.rename(columns={'Weather': weathers[2]})
+
+    dfh[weathers[1]] = dfd[weathers[1]]
+    dfh[weathers[2]] = dfs[weathers[2]]
+
+    cdf = copy.deepcopy(dfh)
+
+    cr = list(dfh['CANCELLATION_REASON'])
+    crv1 = []
+    for i in range(len(cr)):
+        if cr[i] == 'B':
+            crv1.append(1)
+        else:
+            crv1.append(0)
+    cdf = cdf.drop(columns=['CANCELLATION_REASON', 'CANCELLED'])
+    cdf['CANCELLED'] = crv1
+    cdf = cdf.dropna()
+
+    ifdf = cdf[[weathers[0], weathers[1], weathers[2]]]
+
+    iF = IsolationForest(random_state=34, contamination=contamination)
+    iF.fit(ifdf)
+    pred = iF.predict(ifdf)
+
+    check = [True if pred[x] == 1 else False for x in range(len(pred))]
+    cdf['pred'] = check
+
+    inlier = cdf.loc[cdf['pred'] == True]
+    outlier = cdf.loc[cdf['pred'] == False]
+
+    if flag == 'graph':
+        fig, ax = plt.subplots(ncols=1, figsize=(10, 10), subplot_kw={"projection": "3d"})
+
+        xi = inlier[weathers[0]]
+        yi = inlier[weathers[1]]
+        zi = inlier[weathers[2]]
+        xo = outlier[weathers[0]]
+        yo = outlier[weathers[1]]
+        zo = outlier[weathers[2]]
+        ax.scatter(xi, yi, zi)
+        ax.scatter(xo, yo, zo, color='red', marker='x')
+        ax.set_xlabel(weathers[0])
+        ax.set_ylabel(weathers[1])
+        ax.set_zlabel(weathers[2])
+        ax.view_init(10, 200)
+        plt.show()
+    else:
+        return cdf
+
+data = pd.read_csv("/Users/moon/Desktop/Business Analytics/Term Project/Data/filtered/commitdf.csv")
+
+iForest(data, ['Humidity','Pressure','Wind_speed'], 0.005, 'graph')
