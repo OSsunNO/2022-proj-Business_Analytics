@@ -23,3 +23,7 @@ Considering the location of airports in the US for the variety of the weather, a
 We apply Ridge & Lasso regression method for selected weather variables with gridSearch, however, there is too low score of train model and test result.  
 We try to find the reason why by analyzing the data distribution and residual, we conclude that weather does not affect the amount of delay time. To check verification related to the extreme weather condition again, we apply the Isolation forest method, however, extreme weather condition also does not affect the amount of delay time.  
 We failed to predict the amount of delay time though, unlike our empirical thought, we figured out that the weather is not a critical factor for the aircraft take-off.
+
+## Contributors 
+Seonho Kim
+Eunji Lee
