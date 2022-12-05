@@ -25,5 +25,5 @@ We try to find the reason why by analyzing the data distribution and residual, w
 We failed to predict the amount of delay time though, unlike our empirical thought, we figured out that the weather is not a critical factor for the aircraft take-off.
 
 ## Contributors 
-Seonho Kim
+Seonho Kim,  
 Eunji Lee
