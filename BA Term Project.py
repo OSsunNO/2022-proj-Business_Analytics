@@ -1039,3 +1039,4 @@ fr[['Humidity','Wind_direction','Wind_speed','DEPARTURE_DELAY']].describe().loc[
 tr[['Humidity','Wind_direction','Wind_speed','DEPARTURE_DELAY']].describe().loc[['mean','std','25%','50%','75%']]
 
 #commit check
+#check again
