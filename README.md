@@ -1,4 +1,4 @@
-# BusinessAnalyticsProject
+# Business Analytics Project
 Business Analytics course aims to provide students with technologies, applications, practices, and skills for continuous iterative exploration and investigation of past business performance along with external data generated from diverse sources such as web and social network service (SNS) to gain insights and drive business planning.
 
 This term project is for students in the year 3 module at the ITM Programme.
